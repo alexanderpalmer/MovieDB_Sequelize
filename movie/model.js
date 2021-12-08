@@ -34,7 +34,7 @@ export async function getAll() {
 }
 
 export async function get(id) {
-  Movies.findByPk(id);
+  return Movies.findByPk(id);
 }
 
 export async function remove(id) {
