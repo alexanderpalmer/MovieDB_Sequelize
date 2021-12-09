@@ -5,15 +5,28 @@ const { Sequelize, DataTypes } = seq;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const sequelize = new Sequelize({
+/* const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: path.resolve(__dirname, '\movie.db'),
   logging: console.log,
+}); */
+
+// Variante mit mysql funktioniert.
+const sequelize = new Sequelize('movies', 'wwwrun', 'zbw98',{
+  dialect: 'mysql',
+  logging: console.log,
 });
 
+
+
 const Movies = sequelize.define(
-  'Movies', 
+  'Movies',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     title: {
       type: DataTypes.TEXT,
     },
@@ -24,15 +37,20 @@ const Movies = sequelize.define(
   { timestamps: false },
 );
 
-export async function getAll() {
+// Synchronisation forcieren, damit die Tabelle
+// auch erstellt wird. Die Datenbank selbst muss aber
+// existieren.
+await sequelize.sync({force: true});
+
+export function getAll() {
   return Movies.findAll();
 }
 
-export async function get(id) {
+export function get(id) {
   return Movies.findByPk(id);
 }
 
-export async function remove(id) {
+export function remove(id) {
   Movies.destroy({ where: { id } });
 }
 
