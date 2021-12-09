@@ -14,13 +14,8 @@ const sequelize = new Sequelize({
 const Movies = sequelize.define(
   'Movies', 
   {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     year: {
       type: DataTypes.INTEGER,
